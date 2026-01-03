@@ -8,14 +8,17 @@
         "dev": "nodemon server.js"
     },
     "dependencies": {
-        "express": "^4.19.2"
+        "cors": "^2.8.5",
+        "express": "^4.19.2",
+        "multer": "^2.0.2"
     },
     "engines": {
         "node": ">=18.0.0"
     },
     "author": "Imagine Cup World Champion Team",
     "license": "MIT",
-    "keywords": ["quantum",
+    "keywords": [
+        "quantum",
         "cybersecurity",
         "azure",
         "ai-foundry",

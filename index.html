@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+1<!DOCTYPE html>
 <html>
 
 <head>
@@ -179,19 +179,301 @@
         </div>
     </div>
 
-    <div class="controls">
+    <div class="controls" style="position: relative; z-index: 10;">
         <button class="btn btn-blue" onclick="loadGrid()">🏭 Load Power Grid</button>
-        <button class="btn btn-red" onclick="quantumAttack()" id="attackBtn" disabled>⚡ QUANTUM ATTACK!</button>
-        <button class="btn btn-green" onclick="deployShields()" id="shieldBtn" disabled>🛡️ DEPLOY ROBOT SWARM</button>
+    
+        <button class="btn btn-red" onclick="quantumAttack()" id="attackBtn" disabled>
+            ⚡ QUANTUM ATTACK!
+        </button>
+    
+        <button class="btn btn-green"
+                id="mitigateBtn"
+                onclick="mitigateThreat()"
+                style="pointer-events: auto;"
+                disabled>
+            🟢 MITIGATE THREAT
+        </button>
     </div>
+    <div id="countdown"
+    style="text-align:center;
+           font-size:2em;
+           font-weight:bold;
+           margin-top:10px;
+           color:#ffaa00;
+           display:none;">
+⏱ Attack in: 30s
+</div>
+
+<div id="whatIfPanel"
+     style="display:none;
+            max-width:600px;
+            margin:20px auto;
+            padding:20px;
+            border-radius:15px;
+            background:rgba(0,0,0,0.85);
+            border:2px solid #00e5ff;
+            font-family:monospace;">
+
+    <h3 style="color:#00e5ff;text-align:center;">
+        🔮 Quantum What-If Simulation
+    </h3>
+
+    <div id="scenarioA" style="margin:10px 0;color:#ff5555;">
+        ❌ No Mitigation (30s Delay) → ~12% Infrastructure Risk Escalation
+    </div>
+    
+    <div id="scenarioB" style="margin:10px 0;color:#ffaa00;">
+        ⚠️ Delayed Mitigation (15s) → ~6% Infrastructure Risk Escalation
+    </div>
+    
+    <div id="scenarioC" style="margin:10px 0;color:#00ff88;font-weight:bold;">
+        ✅ Pre-Detection + Instant Mitigation → <2% Risk Impact (RECOMMENDED)
+    </div>
+    
+</div>
+
+<button class="btn btn-green"
+        id="isolateBtn"
+        onclick="activateIsolation()"
+      >
+🧿 ACTIVATE TEMPORAL ISOLATION
+</button>
+<div style="margin:10px 0;color:#00ffaa;font-weight:bold;">
+    🧿 Predictive Temporal Isolation → <1% Infrastructure Risk
+</div>
+
+
+
+    <div class="controls" style="position: relative; z-index: 10;">
+        <input type="file" id="imageInput" />
+        <button class="btn btn-blue" onclick="uploadImage()">🖼️ Upload Image</button>
+    </div>
+    
+        
 
     <div class="logs" id="agentLog">🤖 QuantumShield Agent Swarm Initialized - Ready to Protect Critical Infrastructure...</div>
 
+   
+
+
     <script>
+
+let currentLoss = 0;        // percentage
+let lossTimer = null;
+
+let isolationActive = false;
+let isolationTimer = null;
+
+let mitigationMode = "AUTO"; // AUTO or MANUAL
+let mitigationTimeTaken = null; // seconds
+
+let simulationActive = false;
+
+let attackPaths = [];
+let attackPathIndex = 0;
+let attackPathInterval = null;
+
+function forceSafeState(statusText) {
+    attackVisualActive = false;
+    underAttack = false;
+
+    // Stop visuals
+    clearInterval(attackPathInterval);
+    attackPaths = [];
+    attackPathIndex = 0;
+
+    // Stop timers
+    if (lossTimer) {
+        clearInterval(lossTimer);
+        lossTimer = null;
+    }
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+    }
+
+    // Force heading state
+    const status = document.getElementById('status');
+    status.innerHTML = statusText;
+    status.classList.remove('attack');
+    status.classList.add('safe');
+
+    // Disable action buttons
+    document.getElementById('mitigateBtn').disabled = true;
+}
+
+
+
+function generateAttackPath() {
+    attackPaths = [];
+
+    // Pick random connected nodes
+    for (let i = 0; i < 6; i++) {
+        const from = powerPlants[Math.floor(Math.random() * powerPlants.length)];
+        const to = powerPlants[Math.floor(Math.random() * powerPlants.length)];
+
+        if (from !== to) {
+            attackPaths.push({ from, to });
+        }
+    }
+
+    attackPathIndex = 0;
+}
+
+function startAttackPathAnimation() {
+    generateAttackPath();
+
+    attackPathInterval = setInterval(() => {
+        attackPathIndex++;
+
+        if (attackPathIndex >= attackPaths.length) {
+            clearInterval(attackPathInterval);
+        }
+    }, 800);
+}
+
+
+let threatProbability = 0;
+let predictionInterval = null;
+let attackPredicted = false;
+
+let countdownTime = 30;
+let countdownInterval = null;
+
+function startThreatPrediction() {
+    if (predictionInterval) return;
+
+    logAgent("🔮 Quantum AI: Monitoring pre-attack signals");
+
+    predictionInterval = setInterval(() => {
+        if (attackPredicted) return;
+
+        // Increase threat gradually
+        threatProbability += Math.random() * 12;
+
+        if (threatProbability > 100) threatProbability = 100;
+
+        document.getElementById('threatMeter').textContent =
+            threatProbability.toFixed(1) + "%";
+
+        // Visual warning phase
+        if (threatProbability > 60 && threatProbability < 90) {
+            logAgent("⚠️ Anomalous quantum signals detected");
+        }
+
+        // PREDICTED ATTACK
+        if (threatProbability >= 90) {
+            attackPredicted = true;
+            triggerPredictedAttack();
+        }
+
+    }, 1500);
+}
+
+function startCountdown() {
+    const cd = document.getElementById('countdown');
+    cd.style.display = 'block';
+    countdownTime = 30;
+    cd.textContent = `⏱ Attack in: ${countdownTime}s`;
+
+    countdownInterval = setInterval(() => {
+        // 🛑 FREEZE TIME IF ISOLATION IS ACTIVE
+    if (isolationActive) return;
+        countdownTime--;
+        cd.textContent = `⏱ Attack in: ${countdownTime}s`;
+
+        if (countdownTime === 15) {
+    document.getElementById('scenarioB').style.fontWeight = "bold";
+    logAgent("⚠️ Simulation update: Delayed mitigation increases damage");
+}
+
+if (countdownTime <= 0) {
+    clearInterval(countdownInterval);
+    cd.textContent = "🤖 AI AUTO-MITIGATION ACTIVATED";
+
+    // AI acts automatically
+    mitigationTimeTaken = 30;
+    autoMitigate();
+}
+
+    }, 1000);
+}
+
+function autoMitigate() {
+    logAgent("🤖 AI initiated autonomous mitigation");
+
+    attackVisualActive = false;
+    underAttack = false;
+
+    const loss = calculateLossPercentage(mitigationTimeTaken);
+
+    const status = document.getElementById('status');
+    status.innerHTML = `🟢 SYSTEM SECURED | Estimated Impact: ${loss}%`;
+    status.classList.remove('attack');
+    status.classList.add('safe');
+
+    document.getElementById('mitigateBtn').disabled = true;
+    document.getElementById('countdown').style.display = 'none';
+
+    logAgent(`📉 Impact minimized to ${loss}% using AI auto-response`);
+}
+
+function calculateLossPercentage(timeTaken) {
+    if (timeTaken <= 5) return 0.5;
+    if (timeTaken <= 10) return 1;
+    if (timeTaken <= 15) return 2;
+    if (timeTaken <= 20) return 5;
+    if (timeTaken <= 25) return 8;
+    return 10;
+}
+
+
+function executeAttack() {
+    logAgent("💥 Quantum attack executed due to no mitigation");
+
+    attackVisualActive = true;
+    underAttack = true;
+
+    document.getElementById('status').innerHTML =
+        "🔴 CRITICAL INFRASTRUCTURE BREACH";
+    document.getElementById('status').classList.add('attack');
+
+    // Optional: spike threat
+    document.getElementById('threatMeter').textContent = "100%";
+}
+
+
+function triggerPredictedAttack() {
+    logAgent("🚨 QUANTUM ATTACK PREDICTED (T-30 seconds)");
+
+    attackVisualActive = true;
+    underAttack = true;
+
+    const status = document.getElementById('status');
+    status.innerHTML = "🔴 ATTACK PREDICTED — PRE-EMPTIVE MITIGATION REQUIRED";
+    status.classList.remove('safe');
+    status.classList.add('attack');
+
+    const btn = document.getElementById('mitigateBtn');
+    btn.disabled = false;
+    btn.style.pointerEvents = "auto";
+    btn.style.opacity = "1";
+
+    /* start visual attack features */
+startAttackPathAnimation();   // STEP 5a
+startCountdown();             // countdown timer
+showWhatIfSimulation();
+
+
+}
+
+
         const canvas = document.getElementById('powerGrid');
         const ctx = canvas.getContext('2d');
         let powerPlants = [];
         let underAttack = false;
+        let attackVisualActive = false;
+
         let rotation = 0;
         let particles = [];
         let hackWave = 0;
@@ -199,6 +481,51 @@
         canvas.addEventListener('mousemove', (e) => {
             rotation = (e.clientX / window.innerWidth) * 0.3;
         });
+
+
+function activateIsolation() {
+    if (isolationActive) return;
+
+    isolationActive = true;
+    logAgent("🧿 Temporal Isolation Activated — Attack window frozen");
+
+    forceSafeState("🟢 TEMPORAL ISOLATION ACTIVE (<1% LOSS)");
+
+    // Update metrics
+    document.getElementById('threatMeter').textContent = "<1%";
+    document.getElementById('protectionMeter').textContent = "99%";
+
+    const scenarioBox = document.getElementById('scenarioC');
+    if (scenarioBox) {
+        scenarioBox.innerHTML =
+            "🧿 Predictive Isolation → <1% Infrastructure Risk (ACTIVE)";
+    }
+
+    document.getElementById('isolateBtn').disabled = true;
+
+    // Isolation window
+    let seconds = 10;
+    isolationTimer = setInterval(() => {
+        seconds--;
+        logAgent(`⏱ Isolation window: ${seconds}s remaining`);
+
+        if (seconds <= 0) {
+            clearInterval(isolationTimer);
+            deactivateIsolation();
+        }
+    }, 1000);
+}
+
+function deactivateIsolation() {
+    isolationActive = false;
+    logAgent("🔓 Temporal Isolation Released — System normalized");
+
+    const status = document.getElementById('status');
+    status.innerHTML = "🟢 POWER GRID SECURE";
+    status.classList.remove('attack');
+    status.classList.add('safe');
+}
+
 
         function drawGrid() {
             ctx.save();
@@ -209,15 +536,31 @@
 
             powerPlants.forEach((plant, i) => {
                 const pulse = Math.sin(Date.now() * 0.005 + i) * 3;
-                const color = underAttack ? '#ff4444' : '#00ff88';
+                let color = '#00ff88';
+
+                if (isolationActive) {
+    ctx.strokeStyle = '#00ffaa';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(600, 225, 200 + Math.sin(Date.now() * 0.01) * 10, 0, Math.PI * 2);
+    ctx.stroke();
+}
+
+            
+if (attackVisualActive && !isolationActive) {
+    color = Math.sin(Date.now() * 0.01) > 0 ? '#ff4444' : '#ffaa00';
+}
+
+
                 ctx.fillStyle = color;
                 ctx.beginPath();
                 ctx.arc(plant.x, plant.y, 28 + pulse, 0, Math.PI * 2);
                 ctx.fill();
 
                 // ELECTRICITY RINGS
-                ctx.strokeStyle = color;
-                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#00e5ff';   // cyan / electric blue
+ctx.lineWidth = 4;
+
                 for (let j = 0; j < 4; j++) {
                     ctx.beginPath();
                     ctx.arc(plant.x, plant.y, 35 + j * 15 + Math.sin(Date.now() * 0.008 + j) * 4, 0, Math.PI * 2);
@@ -235,8 +578,38 @@
             });
             ctx.restore();
 
+            
+/* ===== ATTACK PATH DRAWING (STEP 3) ===== */
+if (attackVisualActive && attackPaths.length > 0) {
+    ctx.strokeStyle = '#ff0000';
+    ctx.lineWidth = 3;
+
+    for (let i = 0; i <= attackPathIndex; i++) {
+        const path = attackPaths[i];
+        if (!path) continue;
+
+        ctx.beginPath();
+        ctx.moveTo(path.from.x, path.from.y);
+        ctx.lineTo(path.to.x, path.to.y);
+        ctx.stroke();
+    }
+}
+/* ===== END STEP 3 ===== */
+
             updateParticles();
         }
+
+        function showWhatIfSimulation() {
+    if (simulationActive) return;
+
+    simulationActive = true;
+
+    document.getElementById('whatIfPanel').style.display = 'block';
+
+    logAgent("🔮 Quantum AI simulated multiple futures");
+    logAgent("🧠 Recommended action: MITIGATE NOW");
+}
+
 
         function createExplosion(x, y) {
             for (let i = 0; i < 25; i++) {
@@ -263,8 +636,12 @@
         }
 
         function logAgent(message) {
-            const log = document.getElementById('agentLog');
-            const color = underAttack ? '#ff4444' : '#00ff88';
+    const log = document.getElementById('agentLog');
+    const color = (attackVisualActive && !isolationActive)
+    ? '#ff4444'
+    : '#00ff88';
+
+
             log.innerHTML += `<div style="color:${color};font-weight:bold;">[${new Date().toLocaleTimeString()}] ${message}</div>`;
             log.scrollTop = log.scrollHeight;
         }
@@ -292,42 +669,143 @@
                     clearInterval(loadInterval);
                 }
             }, 80);
+
+            startThreatPrediction();
+
         }
 
         async function quantumAttack() {
-            logAgent('🚨 QUANTUM ATTACK SIMULATED - RSA-4096 Shor Algorithm Detected!');
-            document.getElementById('status').innerHTML = '🔴 CRITICAL INFRASTRUCTURE BREACH';
-            document.getElementById('status').className = 'attack';
-            document.getElementById('threatMeter').textContent = '97.3%';
-            document.getElementById('exploitCount').textContent = '127';
-            underAttack = true;
+    logAgent("📡 Suspicious activity detected… analyzing");
 
-            // HACKER SHOCKWAVE
-            hackWave = 0;
-            const hackInterval = setInterval(() => {
-                ctx.strokeStyle = `rgba(255, 68, 68, ${0.4 - hackWave * 0.03})`;
-                ctx.lineWidth = 8;
-                ctx.beginPath();
-                ctx.arc(600, 225, hackWave * 25, 0, Math.PI * 2);
-                ctx.stroke();
-                hackWave += 1;
-                if (hackWave > 12) clearInterval(hackInterval);
-            }, 120);
+    attackVisualActive = true;
+    underAttack = true;
 
-            // Plant explosions
-            powerPlants.forEach(plant => {
-                setTimeout(() => createExplosion(plant.x, plant.y), Math.random() * 2000);
-            });
 
-            // FAKE AZURE AI (Judges think real!)
-            setTimeout(() => {
-                logAgent('🧠 Azure AI Foundry: Quantum RSA-4096 Shor Attack Confirmed');
-                logAgent('🔮 48hr Prediction: Adversary escalation expected');
-                logAgent('📊 Azure ML Risk Score: 97.3% | Confidence: 98.2%');
-                logAgent('⚛️ Azure Quantum: 127 exploit vectors optimized');
-                document.getElementById('shieldBtn').disabled = false;
-            }, 2000);
-        }
+    try {
+        const res = await fetch('/azure-ai-foundry', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                attackType: "Quantum RSA-4096",
+                method: "Shor",
+                source: "darkweb",
+                intent: "key-extract"
+            })
+        });
+        const data = await res.json().catch(() => ({}));
+
+if (res.status !== 200) {
+    logAgent(`🛑 PRE-ATTACK BLOCKED OR ERROR (status ${res.status})`);
+
+    attackVisualActive = true;
+    underAttack = true;
+
+    const status = document.getElementById('status');
+    status.innerHTML = '🔴 CRITICAL THREAT DETECTED';
+    status.classList.remove('safe');
+    status.classList.add('attack');
+
+    const btn = document.getElementById('mitigateBtn');
+    btn.disabled = false;
+    btn.style.pointerEvents = "auto";
+    btn.style.opacity = "1";
+
+    document.getElementById('isolateBtn').disabled = false;
+
+    // 🔴 START LOSS TIMER (30s window)
+currentLoss = 0;
+
+lossTimer = setInterval(() => {
+    // 🛑 STOP LOSS IF ISOLATION IS ACTIVE
+    if (isolationActive) return;
+    currentLoss += 1;
+    logAgent(`📉 Infrastructure risk rising: ${currentLoss}%`);
+
+    if (currentLoss >= 12) {
+        clearInterval(lossTimer);
+        logAgent("❌ Critical loss threshold reached");
+    }
+}, 3000);
+
+    return;
+}
+
+
+        logAgent("⚠️ No threat detected");
+
+    } 
+        catch (err) {
+    console.error(err);
+    logAgent("⚠️ Detection service unreachable");
+}
+
+    }
+ 
+
+
+    function mitigateThreat() {
+
+// Calculate how late the response was (seconds)
+mitigationTimeTaken = 30 - countdownTime;
+
+// Hide what-if simulation
+simulationActive = false;
+document.getElementById('whatIfPanel').style.display = 'none';
+
+/* ===== STOP ATTACK PATH VISUALS ===== */
+clearInterval(attackPathInterval);
+attackPaths = [];
+attackPathIndex = 0;
+
+/* ===== STOP COUNTDOWN ===== */
+clearInterval(countdownInterval);
+countdownInterval = null;
+document.getElementById('countdown').style.display = 'none';
+
+console.log("MITIGATE BUTTON CLICKED");
+logAgent("🛡️ Mitigation engaged – restoring system");
+
+/* ===== RESET ATTACK STATE ===== */
+attackVisualActive = false;
+underAttack = false;
+particles = [];
+
+/* ===== SECURE SYSTEM ===== */
+const status = document.getElementById('status');
+status.innerHTML = '🟢 POWER GRID SECURE';
+status.classList.remove('attack');
+status.classList.add('safe');
+
+/* ===== LOSS CALCULATION (CORE FEATURE) ===== */
+const loss = calculateLossPercentage(mitigationTimeTaken);
+logAgent(`📉 Estimated impact reduced to ${loss}% due to timely response`);
+
+/* ===== DISABLE MITIGATION BUTTON ===== */
+const btn = document.getElementById('mitigateBtn');
+btn.disabled = true;
+btn.style.pointerEvents = "none";
+
+/* ===== OPTIONAL VICTORY EFFECT ===== */
+for (let i = 0; i < 80; i++) {
+    setTimeout(() => {
+        createExplosion(
+            Math.random() * 1200,
+            Math.random() * 450
+        );
+    }, i * 25);
+}
+
+logAgent("✅ Threat neutralized | System stable");
+
+/* ===== RESET PREDICTION ENGINE ===== */
+threatProbability = 0;
+attackPredicted = false;
+clearInterval(predictionInterval);
+predictionInterval = null;
+document.getElementById('threatMeter').textContent = "0%";
+}
+
+
 
         async function deployShields() {
             logAgent('🤖 DEPLOYING AGENT SWARM + SELF-HEALING AZURE FIREWALLS');
@@ -371,8 +849,41 @@
         }
         animate();
 
-        // INIT
-        logAgent('QuantumShield Agent Swarm Online - Protecting $10T Infrastructure...');
+        
+        async function uploadImage() {
+    const fileInput = document.getElementById('imageInput');
+    if (!fileInput.files.length) return;
+
+    const formData = new FormData();
+    formData.append("image", fileInput.files[0]);
+
+    logAgent("📤 Image upload detected… scanning");
+
+    try {
+        const res = await fetch('/upload-image', {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            logAgent(`🛑 IMAGE BLOCKED | Risk Score: ${data.riskScore}`);
+            document.getElementById('status').innerHTML = "🟢 IMAGE ATTACK BLOCKED";
+            document.getElementById('status').className = "safe";
+            return;
+        }
+
+        logAgent("✅ Image safe – no threats detected");
+    } catch (e) {
+        logAgent("❌ Image analysis failed");
+    }
+}
+
+// INIT
+logAgent('QuantumShield Agent Swarm Online - Protecting $10T Infrastructure...');
+
+
     </script>
 </body>
 
