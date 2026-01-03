@@ -1,0 +1,25 @@
+{
+    "name": "quantumshield-imaginecup",
+    "version": "1.0.0",
+    "description": "QuantumShield - AI-Quantum Cyber Defense MVP for Microsoft Imagine Cup 2026",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "nodemon server.js"
+    },
+    "dependencies": {
+        "express": "^4.19.2"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "author": "Imagine Cup World Champion Team",
+    "license": "MIT",
+    "keywords": ["quantum",
+        "cybersecurity",
+        "azure",
+        "ai-foundry",
+        "digital-twins",
+        "imagine-cup"
+    ]
+}
