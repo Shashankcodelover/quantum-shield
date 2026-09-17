@@ -1,97 +1,99 @@
 ﻿# 🛡️ QuantumShield: Post-Quantum Cyber Defense & Resilient Grid Digital Twin
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![NIST Standards](https://img.shields.io/badge/NIST-FIPS%20203%20ML--KEM--768-success)](https://csrc.nist.gov/pubs/fips/203/final)
-[![Quantum Crypto](https://img.shields.io/badge/QKD-BB84%20Simulation-purple)](#quantum-cryptography-engine)
-[![Playwright Verified](https://img.shields.io/badge/Playwright-E2E%20Verified-brightgreen)](tests)
+[![NIST Standards](https://img.shields.io/badge/NIST-FIPS%20203%20ML--KEM--768-success.svg)](https://csrc.nist.gov/pubs/fips/203/final)
+[![Topology Mesh](https://img.shields.io/badge/Quantum%20Topology-Entanglement%20Mesh-purple.svg)](#quantum-relational-topology-mesh)
+[![Test Suite](https://img.shields.io/badge/Test%20Suite-11%2F11%20Passing-brightgreen.svg)](#automated-test-suite)
+[![Evidence](https://img.shields.io/badge/QKD-BB84%20Simulation-blue.svg)](#quantum-cryptography-engine)
 
-> **Google Project of the Year Standard**: Next-generation Post-Quantum Cryptographic (PQC) threat simulation, autonomous defensive agent swarms, and physical-layer SCADA digital twin protection for critical national infrastructure.
-
----
-
-## ⚡ Executive Summary
-
-Classical asymmetric cryptography (RSA-2048, ECC P-256) faces mathematical obsolescence with the emergence of cryptanalytically relevant quantum computers running **Shor's Algorithm** and **Grover's Algorithm**. Critical infrastructure—such as national power distribution grids—is acutely vulnerable to *Harvest Now, Decrypt Later* (HNDL) state-sponsored campaigns.
-
-**QuantumShield** bridges theoretical quantum physics and cyber-physical operations:
-1. **Authentic Post-Quantum Cryptographic Primitives**: Implementing NIST FIPS 203 (ML-KEM-768 / Kyber lattice cryptography), BB84 Quantum Key Distribution with QBER anomaly detection, and Grover/Shor quantum attack modeling.
-2. **35-Node Interactive Power Grid SCADA Digital Twin**: High-frequency telemetry monitoring active power (MW), reactive power (MVAr), bus voltage (kV), frequency (50.0 Hz), and phase angle across generation, transmission, and regional substations.
-3. **Autonomous Quantum Defense Swarm**: Automated zero-trust isolation, PQC lattice re-keying, and dynamic load-rerouting preventing cascading grid blackout under multi-vector quantum attack waves.
+> **Enterprise Defense Platform**: Next-generation Post-Quantum Cryptographic (PQC) threat simulation, autonomous defensive agent swarms, quantum relational entanglement topology corridors, high-throughput batch ingestion studio, and physical-layer SCADA digital twin protection for critical national infrastructure.
 
 ---
 
-## 🔬 Scientific & Algorithmic Architecture
+## 📸 Enterprise Platform Showcase
 
-### 1. Shor's Quantum Period-Finding Subroutine
-Given a target composite public modulus $N = p \times q$ and coprime base $a$:
-- Computes period $r$ of modular exponential state $f(x) = a^x \pmod N$.
-- Analyzes circuit complexity: required logical qubits $n_{\text{qubits}} = 2\lceil\log_2 N\rceil + 3$ and Quantum Fourier Transform (QFT) gate depth $\mathcal{O}(L^2)$.
-- Extracts non-trivial factors via $\gcd(a^{r/2} \pm 1, N)$.
+![QuantumShield Platform Hero Showcase](platform_hero_showcase.png)
 
-### 2. BB84 Quantum Key Distribution (QKD) Engine
-- Simulates Alice generating random quantum bitstrings encoded across Rectilinear ($\{|0\rangle, |90\rangle\}$) and Diagonal ($\{|45\rangle, |135\rangle\}$) photon polarization bases.
-- Quantum measurement mechanics: Bob measures across arbitrary bases; non-matching bases yield 50% random collapse.
-- Eve intercept-resend attack modeling: Eve eavesdropping collapses quantum states, injecting measurable **Quantum Bit Error Rate (QBER)**.
-- Threshold evaluation: Keys with $\text{QBER} < 11\%$ proceed through privacy amplification; keys with $\text{QBER} \ge 11\%$ trigger abort and alarm.
+### Desktop Command Viewports (1920×1080 @ 2x)
 
-### 3. Grover Amplitude Amplification
-- Simulates quantum search acceleration over unstructured search spaces of size $N = 2^b$.
-- Executes alternating unitary transformations: Oracle phase inversion $O_x = I - 2|x^*\rangle\langle x^*|$ and Grover diffusion operator $D = 2|s\rangle\langle s| - I$.
-- Computes optimal iterations $R \approx \frac{\pi}{4}\sqrt{N}$, demonstrating quadratic speedup $\mathcal{O}(\sqrt{N})$ reducing AES-256 brute force to $2^{128}$ operations.
-
-### 4. NIST FIPS 203 ML-KEM-768 (Module-LWE)
-- Hardened Ring/Module Learning With Errors lattice problem over polynomial ring $R_q = \mathbb{Z}_q[X]/(X^{256} + 1)$ with modulus $q = 3329$.
-- Encapsulates and decapsulates 256-bit symmetric cipher keys resistant to both Shor's and Grover's quantum attacks.
+| Viewport | Description | Screenshot |
+| :--- | :--- | :--- |
+| **01. Digital Twin SCADA Grid** | 35-node high-voltage power grid digital twin with live particle beams, bus voltages, load telemetry, and threat meters | ![Digital Twin SCADA Grid](screenshots/desktop/01_desktop_quantum_grid_digital_twin.png) |
+| **02. Quantum Topology Mesh** | Relational entanglement corridors linking substation nodes, Bell-state fidelities, coherence times, live QBER, and 1-click sever controls | ![Quantum Relational Topology Mesh](screenshots/desktop/02_desktop_quantum_topology_mesh.png) |
+| **03. Batch Ingestion Studio** | Enterprise batch ingestion console supporting RFC 4180 CSV & structured JSON formats with universal cascading purge controls | ![Batch Ingestion Studio](screenshots/desktop/03_desktop_enterprise_ingestion_studio.png) |
+| **04. BB84 QKD Simulator** | Single-photon polarization transmission across rectilinear and diagonal bases with Eve interception and QBER detection | ![BB84 QKD Simulator](screenshots/desktop/04_desktop_bb84_qkd_simulator.png) |
+| **05. Shor Factoring QFT** | Quantum Fourier Transform order finding algorithm factorizing composite integers with quantum circuit complexity metrics | ![Shor Factoring QFT](screenshots/desktop/05_desktop_shor_factoring_qft.png) |
+| **06. Grover Amplitude Amplification** | Quadratic quantum search algorithm amplifying secret key probability amplitudes across unstructured search spaces | ![Grover Search Speedup](screenshots/desktop/06_desktop_grover_amplitude_amplification.png) |
 
 ---
 
-## 🖥️ System Architecture & Interfaces
+## ⚡ Core Enterprise Capabilities
 
-### Web Dashboard & SCADA Console (`index.html` + `server.js`)
-- **Port**: `5020`
-- **Dynamic SCADA Canvas**: 35 interconnected nodes with live canvas particle beams, bus voltage alerts, and breaker trip telemetry.
-- **Threat Simulation**: Multi-stage quantum attack injection (Shor RSA factor breach, Grover key search, SCADA substation tampering).
-- **Automated PQC Swarm Defense**: Lattice re-keying, physical breaker quarantine, and islanding algorithms.
-- **Live Quantum Lab**: Real-time interactive calculation tabs for Shor factorization, BB84 photon transmission, and Grover amplification iterations.
+### 1. Quantum Relational Topology Mesh
+- Real-time mapping of quantum defense corridors connecting critical infrastructure substation nodes (`SUB-01-CENTRAL`, `SUB-02-NORTH`, `SUB-05-HYDRO`, `SUB-06-NUCLEAR`).
+- Live tracking of Bell-state qubit fidelity ($\ge 99.2\%$), coherence times ($\mu s$), entanglement rates ($e\text{-pairs/s}$), and channel QBER.
+- **1-Click Sever Controls**: Instantaneous quantum corridor severance and live re-routing during adversarial cyber-physical intrusions.
+
+### 2. Enterprise Batch Ingestion Studio
+- High-throughput batch ingestion supporting both standard **RFC 4180 CSV** (with quoted strings and commas) and **Structured JSON**.
+- Multi-entity support for Entanglement Corridors and Substation Digital Twin Nodes.
+- Interactive live buffer editor pre-loaded with production templates, line counters, and real-time validation error isolation.
+
+### 3. Universal Cascading Deletion
+- Secure cascading deletion: deleting a substation node automatically severs and eliminates all connected quantum entanglement corridors to preserve network integrity.
+- Universal purge controls with safety confirmation dialogues for all corridors or node registries.
+
+### 4. Authenticated Quantum Cryptographic Algorithms
+- **NIST FIPS 203 ML-KEM-768**: Module Learning With Errors (M-LWE) lattice cryptography generating 256-bit quantum-safe shared secrets.
+- **BB84 Polarized QKD**: Simulation of optical photon transmission with eavesdropper detection when QBER exceeds $11\%$.
+- **Shor Period-Finding**: Quantum Fourier Transform simulation for polynomial time composite factoring.
+- **Grover Amplitude Amplification**: Quadratic quantum search speedup $\mathcal{O}(\sqrt{N})$ on symmetric keyspaces.
 
 ---
 
-## 🚀 Getting Started
+## 🧪 Automated Test Suite
 
-### Prerequisites
-- Node.js 18+
-- Python 3.10+ (for optional Streamlit console)
+QuantumShield features a native Node.js automated test suite validating all enterprise services, topology relations, and batch operations:
 
-### Installation
 ```bash
+# Execute automated test suite
+node --test tests/enterpriseMesh.test.js
+```
+
+### Verified Test Matrix (11/11 Passing):
+- [x] Substation node seeding & schema verification
+- [x] Live telemetry computation (Fidelity, QBER, Coverage)
+- [x] Dynamic corridor creation & node binding
+- [x] 1-Click corridor severance & telemetry recalculation
+- [x] Single corridor deletion & continuity check
+- [x] Node deletion with cascading corridor purge
+- [x] High-throughput RFC 4180 CSV batch ingestion
+- [x] Structured JSON batch ingestion
+- [x] Malformed payload rejection & error isolation
+- [x] Universal corridor purge
+- [x] Universal node & cascading corridor purge
+
+---
+
+## 🚀 Quickstart
+
+```bash
+# Clone repository
 git clone https://github.com/Shashankcodelover/quantum-shield.git
 cd quantum-shield
+
+# Install dependencies
 npm install
-```
 
-### Launch Web Console
-```bash
+# Run automated tests
+node --test tests/enterpriseMesh.test.js
+
+# Launch server
 node server.js
-# Access the web console at http://localhost:5020
+# Open http://localhost:5020
 ```
-
-### Run Python Analytics Console
-```bash
-pip install streamlit requests pandas plotly
-streamlit run dashboard.py
-```
-
----
-
-## 🧪 E2E Verification & Testing
-
-Validated end-to-end with Chromium Playwright:
-- Nominal 35-node power grid verification
-- Quantum Shor & Grover attack vector simulation and alert triggers
-- Autonomous PQC defense mitigation and lattice key generation
-- BB84 QKD photon generation and Shor period-finding execution
 
 ---
 
 ## 📜 License
-MIT License. Open-source research and engineering prototype.
+MIT License. Open-source quantum-safe cybersecurity and critical infrastructure digital twin platform.

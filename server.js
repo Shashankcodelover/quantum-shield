@@ -1,11 +1,13 @@
-﻿const express = require('express');
+const express = require('express');
 const path = require('path');
 const quantumEngine = require('./quantum_engine');
+const quantumTopology = require('./quantumTopologyService');
 
 const app = express();
 
 app.use(express.static(path.join(__dirname, '.')));
 app.use(express.json({ limit: '10mb' }));
+app.use(express.text({ type: ['text/*', 'application/csv', 'text/csv'], limit: '15mb' }));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
@@ -115,6 +117,115 @@ app.post('/deploy-firewall', (req, res) => {
         quantumKeyEstablished: true,
         timestamp: new Date().toISOString()
     });
+});
+
+// =========================================================================
+// Enterprise Quantum Relational Topology & Batch Ingestion Endpoints
+// =========================================================================
+
+// Telemetry & Metrics
+app.get('/api/topology/telemetry', (req, res) => {
+    res.json(quantumTopology.getTelemetry());
+});
+
+// Corridors CRUD & 1-Click Sever
+app.get('/api/topology/corridors', (req, res) => {
+    res.json(quantumTopology.getAllCorridors());
+});
+
+app.post('/api/topology/corridors', (req, res) => {
+    try {
+        const corridor = quantumTopology.createCorridor(req.body);
+        res.status(201).json(corridor);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+app.post('/api/topology/corridors/:id/sever', (req, res) => {
+    try {
+        const corridor = quantumTopology.severCorridor(req.params.id);
+        res.json({ success: true, corridor, telemetry: quantumTopology.getTelemetry() });
+    } catch (err) {
+        res.status(404).json({ error: err.message });
+    }
+});
+
+app.post('/api/topology/corridors/:id/restore', (req, res) => {
+    try {
+        const corridor = quantumTopology.restoreCorridor(req.params.id);
+        res.json({ success: true, corridor, telemetry: quantumTopology.getTelemetry() });
+    } catch (err) {
+        res.status(404).json({ error: err.message });
+    }
+});
+
+app.delete('/api/topology/corridors/:id', (req, res) => {
+    const result = quantumTopology.deleteCorridor(req.params.id);
+    if (!result.deleted) return res.status(404).json({ error: 'Corridor not found' });
+    res.json({ success: true, corridorId: req.params.id, telemetry: quantumTopology.getTelemetry() });
+});
+
+// Universal corridor purge
+app.delete('/api/topology/corridors', (req, res) => {
+    const result = quantumTopology.purgeAllCorridors();
+    res.json({ success: true, ...result, telemetry: quantumTopology.getTelemetry() });
+});
+
+// High-Throughput Batch Ingestion for Corridors
+app.post('/api/topology/corridors/upload', (req, res) => {
+    try {
+        const format = req.query.format || 'auto';
+        const payload = req.body;
+        const result = quantumTopology.ingestCorridorsBatch(payload, format);
+        res.json({ ...result, telemetry: quantumTopology.getTelemetry() });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// Nodes CRUD & Cascading Deletion
+app.get('/api/topology/nodes', (req, res) => {
+    res.json(quantumTopology.getAllNodes());
+});
+
+app.post('/api/topology/nodes', (req, res) => {
+    try {
+        const node = quantumTopology.createNode(req.body);
+        res.status(201).json(node);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+app.delete('/api/topology/nodes/:id', (req, res) => {
+    const result = quantumTopology.deleteNode(req.params.id);
+    if (!result.deleted) return res.status(404).json({ error: result.message });
+    res.json({ success: true, ...result, telemetry: quantumTopology.getTelemetry() });
+});
+
+// Universal node & cascading corridor purge
+app.delete('/api/topology/nodes', (req, res) => {
+    const result = quantumTopology.purgeAllNodes();
+    res.json({ success: true, ...result, telemetry: quantumTopology.getTelemetry() });
+});
+
+// High-Throughput Batch Ingestion for Nodes
+app.post('/api/topology/nodes/upload', (req, res) => {
+    try {
+        const format = req.query.format || 'auto';
+        const payload = req.body;
+        const result = quantumTopology.ingestNodesBatch(payload, format);
+        res.json({ ...result, telemetry: quantumTopology.getTelemetry() });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// Reset defaults
+app.post('/api/topology/reset', (req, res) => {
+    quantumTopology.resetTopologyDefaults();
+    res.json({ success: true, telemetry: quantumTopology.getTelemetry() });
 });
 
 app.get('/health', (req, res) => {

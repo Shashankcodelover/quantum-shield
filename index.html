@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -346,6 +346,161 @@
         .log-safe { color: var(--neon-green); }
         .log-danger { color: var(--danger-red); font-weight: bold; }
         .log-ai { color: var(--cyan-primary); }
+
+        /* Enterprise Topology Mesh & Batch Ingestion Styles */
+        .mesh-telemetry-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .mesh-kpi {
+            background: rgba(14, 21, 38, 0.85);
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: left;
+        }
+        .mesh-kpi span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: block;
+        }
+        .mesh-kpi h4 {
+            font-size: 1.4rem;
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 0.3rem;
+            color: var(--cyan-primary);
+        }
+        .mesh-table-wrapper {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(6, 9, 19, 0.7);
+            margin-bottom: 1.5rem;
+        }
+        .mesh-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+        .mesh-table th {
+            background: rgba(14, 21, 38, 0.95);
+            padding: 0.85rem 1rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+        .mesh-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .mesh-table tr:hover td {
+            background: rgba(0, 212, 255, 0.04);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .status-badge.active {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+        }
+        .status-badge.severed {
+            background: rgba(255, 51, 102, 0.15);
+            color: var(--danger-red);
+            border: 1px solid var(--danger-red);
+        }
+        .btn-table {
+            padding: 0.3rem 0.7rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            margin-right: 0.3rem;
+            transition: all 0.2s;
+        }
+        .btn-sever {
+            background: rgba(255, 51, 102, 0.15);
+            color: var(--danger-red);
+            border-color: rgba(255, 51, 102, 0.4);
+        }
+        .btn-sever:hover {
+            background: var(--danger-red);
+            color: white;
+        }
+        .btn-restore {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--neon-green);
+            border-color: rgba(0, 255, 136, 0.4);
+        }
+        .btn-restore:hover {
+            background: var(--neon-green);
+            color: #060913;
+        }
+        .btn-del {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .btn-del:hover {
+            background: rgba(255, 51, 102, 0.3);
+            color: var(--danger-red);
+        }
+        .btn-universal-danger {
+            background: linear-gradient(135deg, #ff3366, #b3002d);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.4rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+        .btn-universal-danger:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .btn-primary-action {
+            background: linear-gradient(135deg, var(--cyan-primary), #0078d4);
+            color: #060913;
+            font-weight: 700;
+            border: none;
+            padding: 0.75rem 1.4rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+        .btn-primary-action:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .batch-editor-area {
+            width: 100%;
+            height: 180px;
+            background: rgba(6, 9, 19, 0.95);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 1rem;
+            resize: vertical;
+            outline: none;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -423,6 +578,8 @@
                 <button class="tab-btn" onclick="showTab('bb84Tab', this)">BB84 Quantum Key Distribution</button>
                 <button class="tab-btn" onclick="showTab('groverTab', this)">Grover Search Speedup</button>
                 <button class="tab-btn" onclick="showTab('kyberTab', this)">NIST ML-KEM-768 Lattice</button>
+                <button class="tab-btn" id="btn-tab-mesh" onclick="showTab('meshTab', this)">🌐 Quantum Topology Mesh</button>
+                <button class="tab-btn" id="btn-tab-ingestion" onclick="showTab('ingestionTab', this)">📥 Batch Ingestion Studio</button>
             </div>
 
             <!-- Tab 1: Shor -->
@@ -498,6 +655,159 @@
                         <button class="btn-calc" onclick="runKyberSimulation()">Generate PQC Encapsulation</button>
                     </div>
                     <div class="result-display" id="kyberResult">// Awaiting Kyber KEM generation...</div>
+                </div>
+            </div>
+
+            <!-- Tab 5: Quantum Topology Mesh -->
+            <div id="meshTab" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.8rem;">
+                    <div>
+                        <h3 style="font-size: 1.2rem; color: var(--cyan-primary);">🌐 Real-Time Entanglement Corridors & Substation Topology Mesh</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem;">Live quantum cryptographic links, Bell-state fidelities, and 1-click corridor severance controls.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.6rem;">
+                        <button class="btn-primary-action" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="openProvisionModal()">+ Provision Corridor</button>
+                        <button class="btn-del" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="refreshTopologyMesh()">🔄 Refresh Mesh</button>
+                    </div>
+                </div>
+
+                <!-- Telemetry KPI Strip -->
+                <div class="mesh-telemetry-strip" id="meshTelemetryStrip">
+                    <div class="mesh-kpi">
+                        <span>Active Corridors</span>
+                        <h4 id="meshActiveCorridors">--</h4>
+                    </div>
+                    <div class="mesh-kpi">
+                        <span>Avg Qubit Fidelity</span>
+                        <h4 id="meshAvgFidelity" style="color: var(--neon-green);">--</h4>
+                    </div>
+                    <div class="mesh-kpi">
+                        <span>Global QBER</span>
+                        <h4 id="meshGlobalQber" style="color: var(--quantum-purple);">--</h4>
+                    </div>
+                    <div class="mesh-kpi">
+                        <span>Grid PQC Coverage</span>
+                        <h4 id="meshPqcCoverage" style="color: var(--neon-green);">--</h4>
+                    </div>
+                </div>
+
+                <!-- Entanglement Corridors Table -->
+                <h4 style="font-size: 1rem; margin-bottom: 0.6rem; color: var(--text-primary);">⚡ Active Entanglement Corridors (PQC Relational Mesh)</h4>
+                <div class="mesh-table-wrapper">
+                    <table class="mesh-table" id="corridorsTable">
+                        <thead>
+                            <tr>
+                                <th>Corridor ID</th>
+                                <th>Topology Channel</th>
+                                <th>Protocol</th>
+                                <th>Fidelity</th>
+                                <th>Coherence</th>
+                                <th>Rate (e-pairs/s)</th>
+                                <th>QBER</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corridorsTbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Substation Digital Twin Node Roster -->
+                <h4 style="font-size: 1rem; margin-bottom: 0.6rem; color: var(--text-primary); margin-top: 1.5rem;">🏭 Substation Digital Twin Roster (Governed Infrastructure Nodes)</h4>
+                <div class="mesh-table-wrapper">
+                    <table class="mesh-table" id="nodesTable">
+                        <thead>
+                            <tr>
+                                <th>Substation ID</th>
+                                <th>Facility Name</th>
+                                <th>Voltage</th>
+                                <th>Geographic Zone</th>
+                                <th>PQC Shield</th>
+                                <th>Failover Mode</th>
+                                <th>Cascading Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nodesTbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 6: Enterprise Batch Ingestion Studio -->
+            <div id="ingestionTab" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.8rem;">
+                    <div>
+                        <h3 style="font-size: 1.2rem; color: var(--cyan-primary);">📥 Enterprise Batch Ingestion & Universal Deletion Console</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem;">High-throughput batch ingestion supporting RFC 4180 CSV & JSON schemas with universal cascading purge controls.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.6rem;">
+                        <button class="btn-universal-danger" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="triggerUniversalPurge()">⚠️ Universal Purge</button>
+                    </div>
+                </div>
+
+                <div class="algo-grid" style="margin-bottom: 1.5rem;">
+                    <div>
+                        <div class="input-group">
+                            <label>Target Infrastructure Entity:</label>
+                            <select id="ingestTargetEntity" onchange="updateIngestTemplate()">
+                                <option value="corridors">Quantum Entanglement Corridors</option>
+                                <option value="nodes">Substation Digital Twin Nodes</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Data Ingestion Format:</label>
+                            <select id="ingestFormat" onchange="updateIngestTemplate()">
+                                <option value="csv">RFC 4180 CSV (Comma-Separated)</option>
+                                <option value="json">Structured JSON Array</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; gap: 0.8rem; margin-top: 1rem;">
+                            <button class="btn-del" style="padding: 0.6rem 1rem;" onclick="updateIngestTemplate()">📋 Load Template</button>
+                            <button class="btn-primary-action" style="padding: 0.6rem 1.4rem;" onclick="executeBatchIngest()">🚀 Ingest Batch Payload</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem;">Live Payload Buffer Editor:</label>
+                        <textarea id="ingestBuffer" class="batch-editor-area" placeholder="// Paste CSV or JSON batch payload here..."></textarea>
+                    </div>
+                </div>
+
+                <div class="result-display" id="ingestResultLog">// Batch ingestion telemetry and schema verification status will appear here...</div>
+            </div>
+
+            <!-- Modal for Provisioning Corridor -->
+            <div id="provisionModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center;">
+                <div style="background: var(--bg-surface); border: 1px solid var(--border-glow); border-radius: 14px; padding: 2rem; width: 90%; max-width: 500px; box-shadow: 0 10px 40px rgba(0,0,0,0.8);">
+                    <h3 style="color: var(--cyan-primary); margin-bottom: 1rem;">⚡ Provision New Entanglement Corridor</h3>
+                    <div class="input-group">
+                        <label>Source Substation Node:</label>
+                        <select id="provSourceNode"></select>
+                    </div>
+                    <div class="input-group">
+                        <label>Target Substation Node:</label>
+                        <select id="provTargetNode"></select>
+                    </div>
+                    <div class="input-group">
+                        <label>Post-Quantum Protocol:</label>
+                        <select id="provProtocol">
+                            <option value="NIST FIPS 203 ML-KEM-768">NIST FIPS 203 ML-KEM-768 (Lattice)</option>
+                            <option value="BB84 Polarized QKD">BB84 Polarized Optical QKD</option>
+                            <option value="FIPS 204 ML-DSA-87">FIPS 204 ML-DSA-87 (Digital Signature)</option>
+                            <option value="Falcon-512 Lattice">Falcon-512 Lattice Fast Verification</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Target Bell-State Fidelity (0.95 - 0.999):</label>
+                        <input type="number" step="0.001" id="provFidelity" value="0.995" />
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 0.8rem; margin-top: 1.5rem;">
+                        <button class="btn-del" onclick="closeProvisionModal()">Cancel</button>
+                        <button class="btn-primary-action" onclick="submitProvisionCorridor()">Provision Channel</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -706,6 +1016,12 @@
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             btn.classList.add('active');
+
+            if (tabId === 'meshTab') {
+                refreshTopologyMesh();
+            } else if (tabId === 'ingestionTab') {
+                updateIngestTemplate();
+            }
         }
 
         // 1. Shor Simulation
@@ -785,6 +1101,307 @@
             }
         }
 
+        // =====================================================================
+        // 5. Quantum Relational Topology Mesh & Batch Ingestion Operations
+        // =====================================================================
+        let currentCorridors = [];
+        let currentNodes = [];
+
+        async function refreshTopologyMesh() {
+            try {
+                const [telRes, corrRes, nodeRes] = await Promise.all([
+                    fetch('/api/topology/telemetry'),
+                    fetch('/api/topology/corridors'),
+                    fetch('/api/topology/nodes')
+                ]);
+                const telemetry = await telRes.json();
+                currentCorridors = await corrRes.json();
+                currentNodes = await nodeRes.json();
+
+                // Update Telemetry KPI Strip
+                document.getElementById('meshActiveCorridors').textContent = `${telemetry.activeCorridors} / ${telemetry.totalCorridors}`;
+                document.getElementById('meshAvgFidelity').textContent = `${(telemetry.avgFidelity * 100).toFixed(2)}%`;
+                document.getElementById('meshGlobalQber').textContent = `${telemetry.globalQber}%`;
+                document.getElementById('meshPqcCoverage').textContent = `${telemetry.quantumSafeCoveragePercent}% (${telemetry.boundNodesCount}/${telemetry.totalNodes} Nodes)`;
+
+                // Render Corridors Table
+                const cTbody = document.getElementById('corridorsTbody');
+                cTbody.innerHTML = '';
+                if (currentCorridors.length === 0) {
+                    cTbody.innerHTML = '<tr><td colspan="9" style="text-align:center; color: var(--text-muted); padding: 1.5rem;">No entanglement corridors active. Provision one or ingest a batch.</td></tr>';
+                } else {
+                    currentCorridors.forEach(c => {
+                        const tr = document.createElement('tr');
+                        const isSevered = c.status === 'severed';
+                        tr.innerHTML = `
+                            <td style="color: var(--cyan-primary); font-weight: 700;">${c.id}</td>
+                            <td>${c.sourceNodeId} ➔ ${c.targetNodeId}</td>
+                            <td><span class="badge purple" style="font-size: 0.7rem;">${c.protocol}</span></td>
+                            <td style="color: ${c.fidelity >= 0.99 ? 'var(--neon-green)' : 'var(--cyan-primary)'}; font-weight: 700;">${(c.fidelity * 100).toFixed(2)}%</td>
+                            <td>${c.coherenceTimeUs} μs</td>
+                            <td>${c.entanglementRateEps}</td>
+                            <td style="color: ${c.qberPercent > 1.5 ? 'var(--danger-red)' : 'var(--neon-green)'};">${c.qberPercent}%</td>
+                            <td><span class="status-badge ${isSevered ? 'severed' : 'active'}">${isSevered ? 'SEVERED' : 'ACTIVE'}</span></td>
+                            <td>
+                                ${isSevered
+                                    ? `<button class="btn-table btn-restore" onclick="restoreCorridor('${c.id}')">Restore</button>`
+                                    : `<button class="btn-table btn-sever" onclick="severCorridor('${c.id}')">Sever</button>`
+                                }
+                                <button class="btn-table btn-del" onclick="deleteCorridor('${c.id}')">Delete</button>
+                            </td>
+                        `;
+                        cTbody.appendChild(tr);
+                    });
+                }
+
+                // Render Nodes Table
+                const nTbody = document.getElementById('nodesTbody');
+                nTbody.innerHTML = '';
+                if (currentNodes.length === 0) {
+                    nTbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color: var(--text-muted); padding: 1.5rem;">No substation nodes active in registry.</td></tr>';
+                } else {
+                    currentNodes.forEach(n => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td style="color: var(--cyan-primary); font-weight: 700;">${n.id}</td>
+                            <td>${n.name}</td>
+                            <td><span class="badge cyan" style="font-size: 0.7rem;">${n.voltage}</span></td>
+                            <td>${n.zone}</td>
+                            <td><span class="status-badge active">${n.pqcStatus.toUpperCase()}</span></td>
+                            <td style="color: var(--text-muted); font-size: 0.8rem;">${n.failoverMode}</td>
+                            <td>
+                                <button class="btn-table btn-del" onclick="deleteNode('${n.id}')">Delete (Cascade)</button>
+                            </td>
+                        `;
+                        nTbody.appendChild(tr);
+                    });
+                }
+
+                // Populate Modal Selects
+                const pSource = document.getElementById('provSourceNode');
+                const pTarget = document.getElementById('provTargetNode');
+                if (pSource && pTarget) {
+                    pSource.innerHTML = currentNodes.map(n => `<option value="${n.id}">${n.id} (${n.name})</option>`).join('');
+                    pTarget.innerHTML = currentNodes.map(n => `<option value="${n.id}">${n.id} (${n.name})</option>`).join('');
+                    if (currentNodes.length > 1) pTarget.selectedIndex = 1;
+                }
+            } catch (err) {
+                console.error('Topology mesh refresh error:', err);
+            }
+        }
+
+        async function severCorridor(id) {
+            try {
+                const res = await fetch(`/api/topology/corridors/${encodeURIComponent(id)}/sever`, { method: 'POST' });
+                const data = await res.json();
+                if (data.success) {
+                    logEvent(`⚠️ Severed Entanglement Corridor ${id} via 1-Click Control`, "danger");
+                    refreshTopologyMesh();
+                }
+            } catch (e) { alert(e.message); }
+        }
+
+        async function restoreCorridor(id) {
+            try {
+                const res = await fetch(`/api/topology/corridors/${encodeURIComponent(id)}/restore`, { method: 'POST' });
+                const data = await res.json();
+                if (data.success) {
+                    logEvent(`✅ Restored Entanglement Corridor ${id} to Active Bell State`, "safe");
+                    refreshTopologyMesh();
+                }
+            } catch (e) { alert(e.message); }
+        }
+
+        async function deleteCorridor(id) {
+            if (!confirm(`Delete corridor ${id}?`)) return;
+            try {
+                const res = await fetch(`/api/topology/corridors/${encodeURIComponent(id)}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    logEvent(`🗑️ Deleted corridor ${id}`, "ai");
+                    refreshTopologyMesh();
+                }
+            } catch (e) { alert(e.message); }
+        }
+
+        async function deleteNode(id) {
+            if (!confirm(`Cascading Deletion Warning:\nDeleting node ${id} will sever and delete all connected quantum entanglement corridors.\n\nProceed?`)) return;
+            try {
+                const res = await fetch(`/api/topology/nodes/${encodeURIComponent(id)}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    logEvent(`🗑️ Cascading Deletion: Node ${id} & ${data.cascadedCorridorsRemoved} corridors purged`, "danger");
+                    refreshTopologyMesh();
+                }
+            } catch (e) { alert(e.message); }
+        }
+
+        function openProvisionModal() {
+            document.getElementById('provisionModal').style.display = 'flex';
+        }
+
+        function closeProvisionModal() {
+            document.getElementById('provisionModal').style.display = 'none';
+        }
+
+        async function submitProvisionCorridor() {
+            const sourceNodeId = document.getElementById('provSourceNode').value;
+            const targetNodeId = document.getElementById('provTargetNode').value;
+            const protocol = document.getElementById('provProtocol').value;
+            const fidelity = parseFloat(document.getElementById('provFidelity').value) || 0.995;
+
+            if (sourceNodeId === targetNodeId) {
+                alert("Source and Target nodes must be distinct.");
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/topology/corridors', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sourceNodeId,
+                        targetNodeId,
+                        protocol,
+                        fidelity,
+                        coherenceTimeUs: Math.round(150 + Math.random() * 150),
+                        entanglementRateEps: Math.round(3000 + Math.random() * 3000),
+                        qberPercent: Number((0.5 + Math.random() * 1.5).toFixed(2))
+                    })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    logEvent(`⚡ Provisioned Entanglement Corridor ${data.id} (${sourceNodeId} ↔ ${targetNodeId})`, "safe");
+                    closeProvisionModal();
+                    refreshTopologyMesh();
+                } else {
+                    alert(data.error || 'Failed to provision corridor');
+                }
+            } catch (e) {
+                alert(e.message);
+            }
+        }
+
+        // Batch Ingestion Studio
+        const INGEST_TEMPLATES = {
+            corridors_csv: `id,sourceNodeId,targetNodeId,protocol,fidelity,coherenceTimeUs,entanglementRateEps,qberPercent
+Q-CORR-201,SUB-02-NORTH,SUB-04-EAST,"NIST FIPS 203 ML-KEM-768",0.996,220,4900,0.85
+Q-CORR-202,SUB-03-TRANS,SUB-05-HYDRO,"BB84 Polarized QKD",0.989,170,3800,1.35
+Q-CORR-203,SUB-06-NUCLEAR,SUB-04-EAST,"Falcon-512 Lattice",0.992,190,4100,1.10`,
+            corridors_json: JSON.stringify([
+                {
+                    "id": "Q-CORR-301",
+                    "sourceNodeId": "SUB-01-CENTRAL",
+                    "targetNodeId": "SUB-04-EAST",
+                    "protocol": "NIST FIPS 203 ML-KEM-768",
+                    "fidelity": 0.997,
+                    "coherenceTimeUs": 250,
+                    "entanglementRateEps": 5400,
+                    "qberPercent": 0.75
+                },
+                {
+                    "id": "Q-CORR-302",
+                    "sourceNodeId": "SUB-05-HYDRO",
+                    "targetNodeId": "SUB-06-NUCLEAR",
+                    "protocol": "FIPS 204 ML-DSA-87",
+                    "fidelity": 0.994,
+                    "coherenceTimeUs": 210,
+                    "entanglementRateEps": 4600,
+                    "qberPercent": 0.95
+                }
+            ], null, 2),
+            nodes_csv: `id,name,voltage,zone,pqcStatus,failoverMode
+SUB-07-SOLAR,"Mojave Solar Thermal Array Substation",400 kV,"Desert Solar Alpha",active,"Quantum Mesh Reroute"
+SUB-08-GEOTHERM,"Geothermal Deep Core Substation",220 kV,"Tectonic Ridge Beta",active,"Local Hardening"`,
+            nodes_json: JSON.stringify([
+                {
+                    "id": "SUB-09-OFFSHORE",
+                    "name": "Offshore Wind Turbine Collector Substation",
+                    "voltage": "400 kV",
+                    "zone": "North Coast Marine Alpha",
+                    "pqcStatus": "active",
+                    "failoverMode": "Autonomous Annealing"
+                },
+                {
+                    "id": "SUB-10-MICROGRID",
+                    "name": "Capital Defense Island Microgrid",
+                    "voltage": "220 kV",
+                    "zone": "Federal Secure Sector",
+                    "pqcStatus": "active",
+                    "failoverMode": "Local Hardening"
+                }
+            ], null, 2)
+        };
+
+        function updateIngestTemplate() {
+            const entity = document.getElementById('ingestTargetEntity').value;
+            const format = document.getElementById('ingestFormat').value;
+            const key = `${entity}_${format}`;
+            document.getElementById('ingestBuffer').value = INGEST_TEMPLATES[key] || '';
+        }
+
+        async function executeBatchIngest() {
+            const entity = document.getElementById('ingestTargetEntity').value;
+            const format = document.getElementById('ingestFormat').value;
+            const payload = document.getElementById('ingestBuffer').value.trim();
+            const logBox = document.getElementById('ingestResultLog');
+
+            if (!payload) {
+                alert("Please provide or load a batch payload.");
+                return;
+            }
+
+            logBox.textContent = `Ingesting ${entity} batch payload (${format.toUpperCase()})...`;
+            try {
+                const endpoint = entity === 'corridors' ? '/api/topology/corridors/upload' : '/api/topology/nodes/upload';
+                const headers = {};
+                let body = payload;
+                if (format === 'json') {
+                    headers['Content-Type'] = 'application/json';
+                } else {
+                    headers['Content-Type'] = 'text/csv';
+                }
+
+                const res = await fetch(`${endpoint}?format=${format}`, {
+                    method: 'POST',
+                    headers,
+                    body
+                });
+                const data = await res.json();
+                logBox.textContent = JSON.stringify(data, null, 2);
+                if (res.ok) {
+                    logEvent(`📥 Ingested ${data.ingestedCount} of ${data.totalProcessed} ${entity} records cleanly via ${format.toUpperCase()}`, "safe");
+                    refreshTopologyMesh();
+                } else {
+                    logEvent(`⚠️ Ingestion Error: ${data.error}`, "danger");
+                }
+            } catch (err) {
+                logBox.textContent = "Error: " + err.message;
+            }
+        }
+
+        async function triggerUniversalPurge() {
+            const entity = document.getElementById('ingestTargetEntity').value;
+            const promptMsg = entity === 'corridors'
+                ? "⚠️ UNIVERSAL PURGE WARNING:\nThis will permanently delete ALL active entanglement corridors across the quantum mesh.\n\nAre you sure you want to proceed?"
+                : "⚠️ UNIVERSAL PURGE WARNING:\nThis will permanently delete ALL substation nodes AND all connected corridors.\n\nAre you sure you want to proceed?";
+            
+            if (!confirm(promptMsg)) return;
+
+            const logBox = document.getElementById('ingestResultLog');
+            logBox.textContent = `Executing universal purge of ${entity}...`;
+            try {
+                const endpoint = entity === 'corridors' ? '/api/topology/corridors' : '/api/topology/nodes';
+                const res = await fetch(endpoint, { method: 'DELETE' });
+                const data = await res.json();
+                logBox.textContent = JSON.stringify(data, null, 2);
+                logEvent(`⚠️ Universal Purge: ${data.message}`, "danger");
+                refreshTopologyMesh();
+            } catch (err) {
+                logBox.textContent = "Error: " + err.message;
+            }
+        }
+
         // Render loop
         function animate() {
             drawGrid();
@@ -792,9 +1409,11 @@
         }
         animate();
 
-        // Auto-load grid on start
+        // Auto-load grid and topology on start
         window.addEventListener('DOMContentLoaded', () => {
             loadGrid();
+            refreshTopologyMesh();
+            updateIngestTemplate();
         });
     </script>
 </body>
