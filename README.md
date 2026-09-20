@@ -97,3 +97,14 @@ node server.js
 
 ## 📜 License
 MIT License. Open-source quantum-safe cybersecurity and critical infrastructure digital twin platform.
+
+
+## User Flow Verification
+
+![User Flow](docs/quantum_career_matrix_verified.png)
+![User Flow](docs/quantum_home_verified.png)
+![User Flow](docs/quantum_shield_attack_verified.png)
+![User Flow](docs/quantum_shield_defense_verified.png)
+![User Flow](docs/quantum_shield_lab_verified.png)
+![User Flow](docs/quantum_shield_overview_verified.png)
+
