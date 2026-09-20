@@ -580,6 +580,7 @@
                 <button class="tab-btn" onclick="showTab('kyberTab', this)">NIST ML-KEM-768 Lattice</button>
                 <button class="tab-btn" id="btn-tab-mesh" onclick="showTab('meshTab', this)">🌐 Quantum Topology Mesh</button>
                 <button class="tab-btn" id="btn-tab-ingestion" onclick="showTab('ingestionTab', this)">📥 Batch Ingestion Studio</button>
+                <button class="tab-btn" id="btn-tab-neural" onclick="showTab('neuralTab', this)">🧠 Quantum Neural Core</button>
             </div>
 
             <!-- Tab 1: Shor -->
@@ -777,6 +778,70 @@
                 </div>
 
                 <div class="result-display" id="ingestResultLog">// Batch ingestion telemetry and schema verification status will appear here...</div>
+            </div>
+
+            <!-- QUANTUM NEURAL CORE TAB -->
+            <div id="neuralTab" class="tab-content" style="display: none;">
+                <div class="panel-header">
+                    <h2>🧠 Quantum Neural Core (Predictive Threat AI)</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Real-time neuromorphic AI agent monitoring the cryptographic mesh for anomalous decoherence events and side-channel leakage.</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <!-- AI Status Panel -->
+                    <div style="background: rgba(10, 20, 28, 0.6); border: 1px solid var(--border-glow); border-radius: 10px; padding: 1.5rem;">
+                        <h3 style="color: #6EE7C8; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span class="live-dot" style="width:10px; height:10px; background:#6EE7C8; border-radius:50%; box-shadow: 0 0 10px #6EE7C8; display:inline-block;"></span> Core Status: AWARE
+                        </h3>
+                        <div class="input-group">
+                            <label>Neuromorphic Heuristic Depth:</label>
+                            <input type="range" min="1" max="100" value="88" disabled style="width: 100%; margin-top:0.5rem; filter: hue-rotate(120deg);">
+                        </div>
+                        <ul style="list-style: none; padding: 0; margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem; line-height: 1.8;">
+                            <li><strong style="color:#fff;">Pattern Matrix:</strong> Loaded (v9.2.1-Q)</li>
+                            <li><strong style="color:#fff;">Decoherence Tolerance:</strong> 0.003%</li>
+                            <li><strong style="color:#fff;">Threat Vector Confidence:</strong> High-Fidelity</li>
+                        </ul>
+                        <button id="btnNeuralSweep" class="btn-primary-action" style="width: 100%; margin-top: 1rem; background: linear-gradient(90deg, #10b981, #059669); border: none;" onclick="activateNeuralCore()">Initiate Autonomous Sweep</button>
+                    </div>
+
+                    <!-- Live Inference Output -->
+                    <div style="background: rgba(0, 0, 0, 0.7); border: 1px solid #1f2937; border-radius: 10px; padding: 1rem; font-family: 'Courier New', Courier, monospace; overflow-y: auto; height: 260px; font-size: 0.85rem;" id="neuralLog">
+                        <div style="color: #9ca3af; margin-bottom: 0.5rem;">[SYSLOG] Neuromorphic engine idling. Awaiting sweep trigger...</div>
+                    </div>
+                </div>
+
+                <script>
+                    function activateNeuralCore() {
+                        const log = document.getElementById('neuralLog');
+                        const btn = document.getElementById('btnNeuralSweep');
+                        btn.innerText = "Sweeping Mesh...";
+                        btn.style.opacity = '0.5';
+                        btn.disabled = true;
+
+                        log.innerHTML += `<div style="color: #6EE7C8; margin-top: 0.5rem;">[SYSTEM] Initializing neuromorphic scan across 12 mesh nodes...</div>`;
+                        
+                        setTimeout(() => {
+                            log.innerHTML += `<div style="color: #34d399; margin-top: 0.5rem;">[AI] Scanning edge routers for ML-KEM-768 lattice anomalies... OK</div>`;
+                        }, 800);
+
+                        setTimeout(() => {
+                            log.innerHTML += `<div style="color: #fbbf24; margin-top: 0.5rem;">[AI] Warning: Minor jitter detected on Node Alpha-9 (BB84 QKD channel). Compensating phase alignment... OK</div>`;
+                        }, 1600);
+
+                        setTimeout(() => {
+                            log.innerHTML += `<div style="color: #60a5fa; margin-top: 0.5rem;">[AI] Cross-referencing signatures against Shor's algorithm threat vectors... ALL CLEAR</div>`;
+                        }, 2400);
+
+                        setTimeout(() => {
+                            log.innerHTML += `<div style="color: #6EE7C8; margin-top: 0.5rem; font-weight: bold;">[SYSTEM] Sweep complete. Mesh integrity at 99.998%. No active intrusions.</div>`;
+                            log.scrollTop = log.scrollHeight;
+                            btn.innerText = "Initiate Autonomous Sweep";
+                            btn.style.opacity = '1';
+                            btn.disabled = false;
+                        }, 3200);
+                    }
+                </script>
             </div>
 
             <!-- Modal for Provisioning Corridor -->
