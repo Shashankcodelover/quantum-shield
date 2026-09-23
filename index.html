@@ -15,7 +15,7 @@
             --cyan-primary: #00d4ff;
             --neon-green: #00ff88;
             --danger-red: #ff3366;
-            --quantum-purple: #9d4edd;
+            --quantum-blue: #9d4edd;
             --text-primary: #f0f4fc;
             --text-muted: #8a9bb8;
         }
@@ -82,7 +82,7 @@
         }
 
         .badge.cyan { border-color: var(--cyan-primary); color: var(--cyan-primary); }
-        .badge.purple { border-color: var(--quantum-purple); color: var(--quantum-purple); }
+        .badge.blue { border-color: var(--quantum-blue); color: var(--quantum-blue); }
         .badge.green { border-color: var(--neon-green); color: var(--neon-green); }
 
         .main-container {
@@ -304,7 +304,7 @@
 
         .btn-calc {
             padding: 0.75rem 1.5rem;
-            background: var(--quantum-purple);
+            background: var(--quantum-blue);
             color: white;
             border: none;
             border-radius: 8px;
@@ -512,7 +512,7 @@
         </div>
         <div class="badge-row">
             <span class="badge cyan">⚡ FIPS 203 ML-KEM-768</span>
-            <span class="badge purple">⚛️ Qiskit BB84 QKD</span>
+            <span class="badge blue">⚛️ Qiskit BB84 QKD</span>
             <span class="badge green">🟢 Grid Digital Twin Active</span>
         </div>
     </header>
@@ -550,7 +550,7 @@
             </div>
             <div class="metric-card">
                 <span class="metric-label">Active Cryptography</span>
-                <h3 id="cryptoType" style="color: var(--quantum-purple); font-size: 1.5rem;">ML-KEM-768</h3>
+                <h3 id="cryptoType" style="color: var(--quantum-blue); font-size: 1.5rem;">ML-KEM-768</h3>
                 <p class="metric-foot">Lattice-Based Post-Quantum Shield</p>
             </div>
         </div>
@@ -684,7 +684,7 @@
                     </div>
                     <div class="mesh-kpi">
                         <span>Global QBER</span>
-                        <h4 id="meshGlobalQber" style="color: var(--quantum-purple);">--</h4>
+                        <h4 id="meshGlobalQber" style="color: var(--quantum-blue);">--</h4>
                     </div>
                     <div class="mesh-kpi">
                         <span>Grid PQC Coverage</span>
@@ -1201,7 +1201,7 @@
                         tr.innerHTML = `
                             <td style="color: var(--cyan-primary); font-weight: 700;">${c.id}</td>
                             <td>${c.sourceNodeId} ➔ ${c.targetNodeId}</td>
-                            <td><span class="badge purple" style="font-size: 0.7rem;">${c.protocol}</span></td>
+                            <td><span class="badge blue" style="font-size: 0.7rem;">${c.protocol}</span></td>
                             <td style="color: ${c.fidelity >= 0.99 ? 'var(--neon-green)' : 'var(--cyan-primary)'}; font-weight: 700;">${(c.fidelity * 100).toFixed(2)}%</td>
                             <td>${c.coherenceTimeUs} μs</td>
                             <td>${c.entanglementRateEps}</td>
